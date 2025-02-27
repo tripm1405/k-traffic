@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { HttpModule } from '@nestjs/axios';
+import HttpServiceConfig from './configs/http-service.config';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -16,6 +19,10 @@ import { AppService } from './app.service';
         trustServerCertificate: true,
       },
       synchronize: true,
+    }),
+    HttpModule.registerAsync({
+      imports: [ConfigModule],
+      useClass: HttpServiceConfig,
     }),
   ],
   controllers: [AppController],
